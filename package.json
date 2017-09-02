@@ -7,7 +7,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-table": "^6.5.3",
-    "react-virtualized": "^9.9.0"
+    "scrollmagic": "^2.0.5"
   },
   "devDependencies": {
     "react-scripts": "1.0.12"
