@@ -1,3 +1,5 @@
+import React, { Component } from 'react';
+
 const ContactCell = row => (
     <div style={{textAlign: 'left'}}>
       <div><a href={`mailto:${row.value.email}`}>{row.value.email}</a></div>
