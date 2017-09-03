@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
-import jQuery from 'jquery';
 import ScrollMagic from 'scrollmagic';
+import { flag } from 'country-code-emoji';
+import jQuery from 'jquery';
+import moment from 'moment';
 
-import logo from './logo.svg';
-import 'react-table/react-table.css';
+import LocationCell from './LocationCell';
+import ContactCell from './ContactCell';
+import './styles/react-table.css';
 import './App.css';
 
 class App extends Component {
@@ -14,7 +17,6 @@ class App extends Component {
       data: [],
       dataLoading: false,
       pageNo: 0,
-      isRowLoaded: false,
     };
   }
 
@@ -46,59 +48,114 @@ class App extends Component {
     });
   }
 
+  _onSort(sorts) {
+    if (sorts.length > 0) {
+      this.setState({ sortedBy: sorts[0].id, sortOrder: sorts[0].desc });
+    }
+  }
+
+  capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   _renderList() {
     const columnSetup = [
       {
-        Header: 'Picture',
+        Header: 'Photo',
         accessor: 'picture',
-        Cell: row => (
-            <div><img src={row.value.medium}/></div>
-        ),
+        sortable: false,
+        Cell: row => <div><img src={row.value.medium}/></div>,
       },
-
       {
         Header: 'Name',
         columns: [
           {
             Header: 'Title',
             id: 'title',
-            accessor: d => d.name.title,
+            maxWidth: 50,
+            accessor: d => this.capitalize(d.name.title),
           },
           {
             Header: 'First',
             id: 'first',
-            accessor: d => d.name.first,
+            accessor: d => this.capitalize(d.name.first),
           },
           {
             Header: 'Last',
             id: 'last',
-            accessor: d => d.name.last,
+            accessor: d => this.capitalize(d.name.last),
           },
         ],
       },
-
       {
         Header: 'Gender',
         accessor: 'gender',
+        maxWidth: 100,
       },
-
+      {
+        Header: 'Nationality',
+        accessor: 'nat',
+        Cell: row => <div>{row.value} {flag(row.value)}</div>,
+        maxWidth: 100,
+      },
       {
         Header: 'Location',
         accessor: 'location',
+        sortable: false,
+        minWidth: 150,
+        Cell: LocationCell,
+      },
+      {
+        Header: 'Contact',
+        id: 'contact',
+        minWidth: 200,
+        sortable: false,
+        accessor: d => d,
+        Cell: ContactCell,
+      },
+      {
+        Header: 'Username',
+        id: 'username',
+        minWidth: 150,
+        sortable: true,
+        accessor: d => d.login,
         Cell: row => (
-            <div style={styles.locationContainer}>
-              <div>{row.value.street}</div>
-              <div>{row.value.city}</div>
-              <div>{row.value.state}</div>
+            <div style={{textAlign: 'center'}}>
+              <div>{row.value.username}</div>
             </div>
         ),
-      }
+      },
+      {
+        Header: 'Date of birth',
+        accessor: 'dob',
+        sortMethod: (a, b) => moment(a).isBefore(b),
+        Cell: row => (
+            <div style={styles.locationContainer}>
+              <div>{moment(row.value.dob).format('DD-MM-YYYY')}</div>
+              <div>{moment(row.value.dob).format('HH:mm:ss')}</div>
+            </div>
+        ),
+      },
+      {
+        Header: 'Registered',
+        accessor: 'registered',
+        sortMethod: (a, b) => moment(a).isBefore(b),
+        Cell: row => (
+            <div style={styles.locationContainer}>
+              <div>{moment(row.value.registered).format('DD-MM-YYYY')}</div>
+              <div>{moment(row.value.registered).format('HH:mm:ss')}</div>
+            </div>
+        ),
+      },
     ];
 
     return (
         <ReactTable
+          style={styles.table}
+          onSortedChange={this._onSort.bind(this)}
           data={this.state.data}
           columns={columnSetup}
+          loading={this.state.dataLoading}
           showPagination={false}
           pageSize={this.state.pageNo * 20}
         />
