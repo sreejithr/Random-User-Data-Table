@@ -2,6 +2,7 @@
   "name": "hubbler",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "http://sreejithr.github.io/Random-User-Data-Table",
   "dependencies": {
     "country-code-emoji": "0.0.1",
     "jquery": "^3.2.1",
