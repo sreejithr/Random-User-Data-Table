@@ -2,7 +2,7 @@
   "name": "hubbler",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "http://sreejithr.github.io/Random-User-Data-Table",
+  "homepage": "http://sreejithr.github.io/Random-User-Data-Table",
   "dependencies": {
     "country-code-emoji": "0.0.1",
     "jquery": "^3.2.1",
@@ -14,12 +14,15 @@
     "scrollmagic": "^2.0.5"
   },
   "devDependencies": {
+    "gh-pages": "^1.0.0",
     "react-scripts": "1.0.12"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }

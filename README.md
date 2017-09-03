@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). Supports infinite scrolling.
 
-[Demo](http://sreejithr.in/)
+[Demo](http://sreejithr.in/Random-User-Data-Table/)
 
 ### Usage
 
